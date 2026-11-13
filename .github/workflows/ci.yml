@@ -17,7 +17,7 @@ jobs:
     name: Typecheck, lint, format, dead code, tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v5
         with:
           node-version: lts/*
@@ -35,7 +35,7 @@ jobs:
     container:
       image: semgrep/semgrep
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Scan
         run: >
           semgrep scan --error --metrics=off
