@@ -29,11 +29,7 @@ export interface Sodium {
 
   crypto_box_keypair(): { publicKey: Uint8Array; privateKey: Uint8Array };
   crypto_box_seal(message: Uint8Array, publicKey: Uint8Array): Uint8Array;
-  crypto_box_seal_open(
-    ciphertext: Uint8Array,
-    publicKey: Uint8Array,
-    privateKey: Uint8Array,
-  ): Uint8Array;
+  crypto_box_seal_open(ciphertext: Uint8Array, publicKey: Uint8Array, privateKey: Uint8Array): Uint8Array;
 
   crypto_pwhash_SALTBYTES: number;
   crypto_pwhash_ALG_ARGON2ID13: number;
@@ -46,11 +42,7 @@ export interface Sodium {
     algorithm: number,
   ): Uint8Array;
 
-  crypto_generichash(
-    hashLength: number,
-    message: Uint8Array,
-    key?: Uint8Array | null,
-  ): Uint8Array;
+  crypto_generichash(hashLength: number, message: Uint8Array, key?: Uint8Array | null): Uint8Array;
 }
 
 // Web needs the "sumo" build for crypto_pwhash (Argon2id). No-op on native.

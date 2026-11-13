@@ -36,8 +36,7 @@ export interface PushChange {
 }
 
 export type PushResult =
-  | { id: string; status: 'ok'; seq: number }
-  | { id: string; status: 'conflict'; current: ServerRecord };
+  { id: string; status: 'ok'; seq: number } | { id: string; status: 'conflict'; current: ServerRecord };
 
 export interface SyncTransport {
   /** Records in `spaceId` with seq > afterSeq, ascending by seq. */

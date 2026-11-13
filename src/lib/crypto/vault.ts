@@ -96,7 +96,12 @@ export function unlockWithPassphrase(
   const { kdf, wrappedMasterKey } = bundle.passphrase;
   const key = deriveKey(sodium, passphrase, kdf);
   try {
-    return openWithMasterKey(sodium, userId, bundle, unwrap(sodium, key, wrappedMasterKey, ctx(userId, 'mk/passphrase')));
+    return openWithMasterKey(
+      sodium,
+      userId,
+      bundle,
+      unwrap(sodium, key, wrappedMasterKey, ctx(userId, 'mk/passphrase')),
+    );
   } finally {
     wipe(key);
   }
@@ -112,7 +117,12 @@ export function unlockWithRecoveryCode(
   if (!bytes) throw new WrongPassphraseError();
   const key = recoveryKeyFromBytes(sodium, bytes);
   try {
-    return openWithMasterKey(sodium, userId, bundle, unwrap(sodium, key, bundle.recovery.wrappedMasterKey, ctx(userId, 'mk/recovery')));
+    return openWithMasterKey(
+      sodium,
+      userId,
+      bundle,
+      unwrap(sodium, key, bundle.recovery.wrappedMasterKey, ctx(userId, 'mk/recovery')),
+    );
   } finally {
     wipe(key);
     wipe(bytes);
@@ -158,11 +168,7 @@ export function formatRecoveryCode(bytes: Uint8Array): string {
 
 /** Lenient parse: ignores case, spaces and dashes; maps O→0 and I/L→1. */
 export function parseRecoveryCode(code: string): Uint8Array | null {
-  const clean = code
-    .toUpperCase()
-    .replace(/[\s-]/g, '')
-    .replace(/O/g, '0')
-    .replace(/[IL]/g, '1');
+  const clean = code.toUpperCase().replace(/[\s-]/g, '').replace(/O/g, '0').replace(/[IL]/g, '1');
   if (clean.length !== Math.ceil((RECOVERY_CODE_BYTES * 8) / 5)) return null;
   const out = new Uint8Array(RECOVERY_CODE_BYTES);
   let bits = 0;

@@ -118,7 +118,16 @@ export class SyncEngine {
       for (const key of Object.keys(fields)) clocks[key] = this.clock.tick();
       const payload: RecordPayload = { kind, fields: { ...fields }, clocks };
       await this.writeLocal(
-        { id, spaceId, keyVersion: current.version, ciphertext: null, deleted: false, baseSeq: null, dirty: true, localVersion: 0 },
+        {
+          id,
+          spaceId,
+          keyVersion: current.version,
+          ciphertext: null,
+          deleted: false,
+          baseSeq: null,
+          dirty: true,
+          localVersion: 0,
+        },
         payload,
       );
       return id;
@@ -288,7 +297,12 @@ export class SyncEngine {
       stored = {
         ...record,
         keyVersion: current.version,
-        ciphertext: encryptJson(this.opts.sodium, current.key, payload, recordContext(record.spaceId, record.id, current.version)),
+        ciphertext: encryptJson(
+          this.opts.sodium,
+          current.key,
+          payload,
+          recordContext(record.spaceId, record.id, current.version),
+        ),
       };
     } else if (record.deleted) {
       stored = { ...record, ciphertext: null };
@@ -323,7 +337,12 @@ export class SyncEngine {
       return;
     }
     this.payloads.set(record.id, payload);
-    this.entities.set(record.id, { id: record.id, spaceId: record.spaceId, kind: payload.kind, fields: payload.fields });
+    this.entities.set(record.id, {
+      id: record.id,
+      spaceId: record.spaceId,
+      kind: payload.kind,
+      fields: payload.fields,
+    });
   }
 
   private tryDecrypt(record: LocalRecord): RecordPayload | null {

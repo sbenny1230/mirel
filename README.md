@@ -12,13 +12,13 @@ moments, gift ideas, birthdays. Mirel nudges you to be intentional with them.
 
 ## Stack
 
-| Concern        | Choice                                                              |
-| -------------- | ------------------------------------------------------------------- |
-| App            | Expo SDK 58, Expo Router, TypeScript (strict)                       |
-| Crypto         | libsodium via `react-native-libsodium` (wasm on web)                |
-| Local storage  | `expo-sqlite`, storing encrypted rows                               |
-| Sync           | Custom encrypted-record sync ([src/lib/sync](src/lib/sync))         |
-| Backend        | Supabase (Auth, Postgres + RLS) on the free tier                    |
+| Concern       | Choice                                                      |
+| ------------- | ----------------------------------------------------------- |
+| App           | Expo SDK 58, Expo Router, TypeScript (strict)               |
+| Crypto        | libsodium via `react-native-libsodium` (wasm on web)        |
+| Local storage | `expo-sqlite`, storing encrypted rows                       |
+| Sync          | Custom encrypted-record sync ([src/lib/sync](src/lib/sync)) |
+| Backend       | Supabase (Auth, Postgres + RLS) on the free tier            |
 
 ## Getting started
 

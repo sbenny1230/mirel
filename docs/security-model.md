@@ -6,13 +6,13 @@ the device.
 
 ## What the server can and cannot see
 
-| Server can see (plaintext)                                  | Server cannot see (encrypted)                          |
-| ----------------------------------------------------------- | ------------------------------------------------------ |
-| Account email, user ids                                     | Names, photos, birthdays, notes, gift ideas, prices    |
-| Space ids and who is a member of which space                | Record type (person / note / gift / occasion …)        |
-| Record ids, sequence numbers, timestamps, deleted flag      | Space names, tags, facts, anything typed into the app  |
-| Ciphertext sizes                                            | Passphrase, recovery code, master/private/space keys   |
-| Reminder send times (once email reminders ship)             |                                                        |
+| Server can see (plaintext)                             | Server cannot see (encrypted)                         |
+| ------------------------------------------------------ | ----------------------------------------------------- |
+| Account email, user ids                                | Names, photos, birthdays, notes, gift ideas, prices   |
+| Space ids and who is a member of which space           | Record type (person / note / gift / occasion …)       |
+| Record ids, sequence numbers, timestamps, deleted flag | Space names, tags, facts, anything typed into the app |
+| Ciphertext sizes                                       | Passphrase, recovery code, master/private/space keys  |
+| Reminder send times (once email reminders ship)        |                                                       |
 
 ## Keys
 
@@ -41,7 +41,7 @@ records ──XChaCha20-Poly1305(space key, AD = space/record/key-version)──
 
 - Code: [`src/lib/sync`](../src/lib/sync), with the server side in
   [`supabase/migrations`](../supabase/migrations).
-- Clients can only *read* rows in spaces they belong to (RLS). All writes go
+- Clients can only _read_ rows in spaces they belong to (RLS). All writes go
   through the `push_records` / `create_space` security-definer functions,
   which check membership and enforce optimistic concurrency.
 - Conflicts are merged **on the device**, because the server can't read the

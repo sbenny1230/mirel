@@ -71,7 +71,12 @@ describe('SyncEngine', () => {
     expect(await phone.engine.pendingCount()).toBe(0);
 
     await laptop.engine.sync();
-    expect(laptop.engine.get(id)).toEqual({ id, spaceId: SPACE, kind: 'person', fields: { name: 'Alex', birthday: '1994-06-02' } });
+    expect(laptop.engine.get(id)).toEqual({
+      id,
+      spaceId: SPACE,
+      kind: 'person',
+      fields: { name: 'Alex', birthday: '1994-06-02' },
+    });
   });
 
   it('never sends plaintext (or even the record kind) to the server', async () => {
