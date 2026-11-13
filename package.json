@@ -59,9 +59,9 @@
     "prepare": "husky",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "knip": "knip",
     "test:coverage": "jest --coverage",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run knip && npm run test:coverage"
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run lint:deadcode && npm run test:coverage",
+    "lint:deadcode": "knip"
   },
   "jest": {
     "preset": "jest-expo",
@@ -86,5 +86,14 @@
       }
     }
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "react-native-libsodium"
+        ]
+      }
+    }
+  }
 }
