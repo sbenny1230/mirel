@@ -1,56 +1,54 @@
-# Welcome to your Expo app 👋
+# Mirel
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Remember what matters to the people you love: likes, dislikes, favourite
+moments, gift ideas, birthdays. Mirel nudges you to be intentional with them.
 
-## Get started
+- **Private by design:** end-to-end encrypted, so the server only ever stores
+  ciphertext. See [docs/security-model.md](docs/security-model.md).
+- **Works offline:** edit anywhere, and changes sync across devices when
+  you're back online.
+- **One codebase:** Expo + TypeScript for iOS, Android and web
+  (react-native-web).
 
-1. Install dependencies
+## Stack
 
-   ```bash
-   npm install
-   ```
+| Concern        | Choice                                                              |
+| -------------- | ------------------------------------------------------------------- |
+| App            | Expo SDK 58, Expo Router, TypeScript (strict)                       |
+| Crypto         | libsodium via `react-native-libsodium` (wasm on web)                |
+| Local storage  | `expo-sqlite`, storing encrypted rows                               |
+| Sync           | Custom encrypted-record sync ([src/lib/sync](src/lib/sync))         |
+| Backend        | Supabase (Auth, Postgres + RLS) on the free tier                    |
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Getting started
 
 ```bash
-npm run reset-project
+npm install
+cp .env.example .env.local   # fill in your Supabase URL + publishable key
+npm test                     # crypto + sync test suites
+npm run typecheck
+npm run lint
+npx expo start               # press w for web
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+Native modules (libsodium, SQLite) mean iOS and Android need a **development
+build**, not Expo Go: `npx expo run:android`, or
+`npx eas-cli@latest build --profile development`.
 
-### Other setup steps
+### Supabase setup
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+1. Create a free project at [supabase.com](https://supabase.com).
+2. Run [`supabase/migrations/20261113000000_init.sql`](supabase/migrations/20261113000000_init.sql),
+   either in the SQL editor or with `npx supabase db push`.
+3. Copy the project URL and **publishable** key into `.env.local`. Never put
+   the secret/service-role key in the app.
 
-## Learn more
+## Project layout
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```
+src/app/           Expo Router screens
+src/lib/crypto/    E2EE primitives, vault (passphrase + recovery code), space keys
+src/lib/sync/      Offline-first sync engine, SQLite store, Supabase transport
+supabase/          Database schema, row-level security, RPC functions
+docs/              Security model
+```
