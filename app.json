@@ -48,6 +48,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d56b243b-7d73-49ca-bc04-eb1234c9fa61"
+      }
+    },
+    "owner": "mirel-app"
   }
 }
