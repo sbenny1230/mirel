@@ -52,3 +52,19 @@ src/lib/sync/      Offline-first sync engine, SQLite store, Supabase transport
 supabase/          Database schema, row-level security, RPC functions
 docs/              Security model
 ```
+
+## Code quality
+
+`npm run check` runs everything CI runs (except Semgrep):
+
+| Tool                       | What it enforces                                                              | When            |
+| -------------------------- | ----------------------------------------------------------------------------- | --------------- |
+| TypeScript (strict)        | Types, including `noUncheckedIndexedAccess`                                   | pre-commit, CI  |
+| ESLint + typescript-eslint | Type-aware rules: no floating promises, exhaustive switches, no `any`         | pre-commit, CI  |
+| Prettier                   | Formatting                                                                    | pre-commit, CI  |
+| Jest + coverage thresholds | Crypto and sync behaviour; coverage can't drop below 90% stmts / 80% branches | pre-push, CI    |
+| knip                       | Unused files, exports and dependencies                                        | CI              |
+| commitlint                 | [Conventional Commits](https://www.conventionalcommits.org) messages          | commit-msg hook |
+| Semgrep                    | Static analysis: security, secrets, React/TS bug patterns                     | CI              |
+| expo-doctor, npm audit     | Expo SDK compatibility, known-vulnerable dependencies                         | CI              |
+| Dependabot                 | Weekly grouped dependency updates                                             | GitHub          |
